@@ -3,8 +3,8 @@
     <ul class="menu">
         {% for link in site_menu_links %}
             <li>
-                <a href="{% url link.path %}"
-                   class="{% if request.resolver_match.url_name == link.path %}
+                <a href="{% url link.path_name %}"
+                   class="{% if request.resolver_match.url_name == link.path_name %}
                             active
                           {% endif %}">
                      {{ link.name }}
