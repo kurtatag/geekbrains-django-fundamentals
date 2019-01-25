@@ -1,0 +1,22 @@
+[
+  {
+    "url_param": "all",
+    "name": "все"
+  },
+  {
+    "url_param": "home",
+    "name": "дом"
+  },
+  {
+    "url_param": "office",
+    "name": "офис"
+  },
+  {
+    "url_param": "modern",
+    "name": "модерн"
+  },
+  {
+    "url_param": "classic",
+    "name": "классика"
+  }
+]

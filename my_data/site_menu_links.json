@@ -1,0 +1,14 @@
+[
+  {
+    "path_name": "index",
+    "name": "домой"
+  },
+  {
+    "path_name": "products",
+    "name": "продукты"
+  },
+  {
+    "path_name": "contact",
+    "name": "контакты"
+  }
+]
