@@ -17,7 +17,7 @@ def index(request: HttpRequest):
 
 def products(request: HttpRequest, current_product_category='all'):
     context = {
-        'title': 'Каталог',
+        'title': 'products',
         'site_navigation_links': site_navigation_links,
         'product_category_menu_links': product_category_menu_links,
         'current_product_category': current_product_category,
@@ -28,7 +28,7 @@ def products(request: HttpRequest, current_product_category='all'):
 
 def contact(request: HttpRequest):
     context = {
-        'title': 'Контакты',
+        'title': 'contact',
         'site_navigation_links': site_navigation_links
     }
     return render(request, 'mainapp/contact.html', context)
