@@ -1,18 +1,19 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
     <div class="container">
         <div class="hero padding-site">
             <div class="header">
-                <a class="logo" href="#"><img src="img/logo.svg" alt="logo"></a>
+                <a class="logo" href="#"><img src="{% static 'img/logo.svg' %}" alt="logo"></a>
                 <ul class="menu">
                     <li class="menu-list"><a href="#" class="menu-link-active">HOME</a></li>
                     <li class="menu-list"><a href="#" class="menu-link">PRODUCTS</a></li>
@@ -21,11 +22,11 @@
                     <li class="menu-list"><a href="#" class="menu-link">CONTACT</a></li>
                     <li class="menu-list search">
                         <a href="#">
-                            <img src="img/search.svg" alt="search">
+                            <img src="{% static 'img/search.svg' %}" alt="search">
                         </a>
                     </li>
                 </ul>
-                <img class="hamburger" src="img/bars-solid.svg" alt="menu icon">
+                <img class="hamburger" src="{% static 'img/bars-solid.svg' %}" alt="menu icon">
             </div>
             <h1 class="hero-title">Our Products Range</h1>
         </div>
@@ -40,44 +41,44 @@
                 <li class="tab-list"><a href="" class="products-tab-link">CLASSIC</a></li>
             </ul>
             <div class="trending-product-box">
-                <div class="trending-product" style="background-image: url(img/trending-product-1.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-1.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
                 </div>
-                <div class="trending-product" style="background-image: url(img/trending-product-2.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-2.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
                 </div>
-                <div class="trending-product" style="background-image: url(img/trending-product-3.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-3.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
                 </div>
-                <div class="trending-product" style="background-image: url(img/trending-product-4.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-4.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
                 </div>
-                <div class="trending-product" style="background-image: url(img/trending-product-5.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-5.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
                 </div>
-                <div class="trending-product" style="background-image: url(img/trending-product-6.jpg);">
+                <div class="trending-product" style="background-image: url({% static 'img/trending-product-6.jpg' %});">
                     <div class="trending-product-hover">
-                        <div class="trending-product-link"><img src="img/arrow.svg" alt="arrow"></div>
+                        <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         <h4 class="trending-product-h4">Fishnet Chair</h4>
                         <p class="trending-product-p">Seat and back with upholstery made of cold cure foam</p>
                     </div>
@@ -90,7 +91,7 @@
                     <h4 class="exclusive">Exclusive</h4>
                     <h2 class="fishnet-promo">Fishnet Chair</h2>
                     <p class="promo-p">Seat and back with upholstery made of cold cure foam. Steel frame, available in matt</p>
-                    <a class="button" href="#">Order Us <img src="img/arrow.svg" alt="arrow"></a>
+                    <a class="button" href="#">Order Us <img src="{% static 'img/arrow.svg' %}" alt="arrow"></a>
                 </div>
             </div>
             <div class="promo-content-2">
@@ -98,7 +99,7 @@
                     <h4 class="exclusive">Exclusive</h4>
                     <h2 class="fishnet-promo">Fishnet Chair</h2>
                     <p class="promo-p">Seat and back with upholstery made of cold cure foam. Steel frame, available in matt</p>
-                    <a class="button" href="#">Order Us <img src="img/arrow.svg" alt="arrow"></a>
+                    <a class="button" href="#">Order Us <img src="{% static 'img/arrow.svg' %}" alt="arrow"></a>
                 </div>
             </div>
         </div>
@@ -138,7 +139,7 @@
             </div>
             <div class="footer-bottom">
                 <p class="footer-bottom-p">&copy; copyright - interior 2016. all rights reserved.</p>
-                <a href="#"><img src="img/social-links.png" alt=""></a>
+                <a href="#"><img src="{% static 'img/social-links.png' %}" alt=""></a>
                 <p class="footer-bottom-p">terms & conditions / privacy policy & cookies</p>
             </div>
         </div>
