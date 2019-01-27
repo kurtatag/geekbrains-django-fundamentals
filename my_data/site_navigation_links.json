@@ -1,14 +1,14 @@
 [
   {
     "path_name": "index",
-    "name": "домой"
+    "name": "home"
   },
   {
     "path_name": "products",
-    "name": "продукты"
+    "name": "products"
   },
   {
     "path_name": "contact",
-    "name": "контакты"
+    "name": "contact"
   }
 ]

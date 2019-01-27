@@ -12,22 +12,7 @@
 <body>
 <div class="container">
     <div class="slider padding-site">
-        <div class="header">
-            <a class="logo" href="#"><img src="{% static 'img/logo.svg' %}" alt="logo"></a>
-            <ul class="menu">
-                <li class="menu-list"><a href="#" class="menu-link-active">HOME</a></li>
-                <li class="menu-list"><a href="#" class="menu-link">PRODUCTS</a></li>
-                <li class="menu-list"><a href="#" class="menu-link">HISTORY</a></li>
-                <li class="menu-list"><a href="#" class="menu-link">SHOWROOM</a></li>
-                <li class="menu-list"><a href="#" class="menu-link">CONTACT</a></li>
-                <li class="menu-list search">
-                    <a href="#">
-                        <img src="{% static 'img/search.svg' %}" alt="search">
-                    </a>
-                </li>
-            </ul>
-            <img class="hamburger" src="{% static 'img/bars-solid.svg' %}" alt="menu icon">
-        </div>
+        {% include 'mainapp/includes/inc_site_navigation.html' %}
         <div class="slider-text">
             <h4 class="trending">TRENDING</h4>
             <h2 class="fishnet">Fishnet Chair</h2>
