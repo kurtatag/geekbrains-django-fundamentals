@@ -1,22 +1,26 @@
 [
   {
     "url_param": "all",
-    "name": "все"
+    "name": "all"
   },
   {
     "url_param": "home",
-    "name": "дом"
+    "name": "home"
   },
   {
     "url_param": "office",
-    "name": "офис"
+    "name": "office"
+  },
+  {
+    "url_param": "furniture",
+    "name": "furniture"
   },
   {
     "url_param": "modern",
-    "name": "модерн"
+    "name": "modern"
   },
   {
     "url_param": "classic",
-    "name": "классика"
+    "name": "classic"
   }
 ]

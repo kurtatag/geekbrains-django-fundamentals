@@ -9,14 +9,21 @@
 {% endblock menu %}
 
 {% block content %}
+    <div id="categories"></div>
     <div class="product-section padding-site">
         <ul class="tab-controll">
-            <li class="tab-list"><a href="" class="products-tab-link-active">ALL</a></li>
-            <li class="tab-list"><a href="" class="products-tab-link">HOME</a></li>
-            <li class="tab-list"><a href="" class="products-tab-link">OFFICE</a></li>
-            <li class="tab-list"><a href="" class="products-tab-link">FURNITURE</a></li>
-            <li class="tab-list"><a href="" class="products-tab-link">MODERN</a></li>
-            <li class="tab-list"><a href="" class="products-tab-link">CLASSIC</a></li>
+            {% for link in product_category_menu_links %}
+                <li class="tab-list">
+                    <a href="{% url 'products' current_product_category=link.url_param %}#categories"
+                       class="{% if current_product_category == link.url_param %}
+                                products-tab-link-active
+                              {% else %}
+                                products-tab-link
+                              {% endif %}">
+                        {{ link.name }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
         <div class="trending-product-box">
             <div class="trending-product" style="background-image: url({% static 'img/trending-product-1.jpg' %});">
