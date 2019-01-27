@@ -2,47 +2,28 @@
 {% load staticfiles %}
 
 {% block menu %}
-    <div class="slider">
-        {% include 'mainapp/includes/inc_site_menu.html' %}
-        <div class="text-slider">
-            <h3 class="green">тенденции</h3>
-            <h3 class="big"> удобные стулья</h3>
-            <p>Новый уровень комфорта. Отличные характеристики.</p>
-            <a href="#" class="button-order">заказать <img src="{% static 'img/arrow.png' %}" alt=""></a>
+    <div class="slider padding-site">
+        {% include 'mainapp/includes/inc_site_navigation.html' %}
+        <div class="slider-text">
+            <h4 class="trending">TRENDING</h4>
+            <h2 class="fishnet">Fishnet Chair</h2>
+            <p class="slider-p">Seat and back with upholstery made of cold cure foam. Steel frame, available in matt
+                powder-coated black </p>
+            <a class="button" href="#">Order Us <img src="{% static 'img/arrow.svg' %}" alt="arrow"></a>
         </div>
-        <div class="navi">
-            <a href="#"></a><a href="#"></a><a href="#"></a>
+        <div class="pagination">
+            <a href="#" class="circle"></a>
+            <a href="#" class="circle circle-active"></a>
+            <a href="#" class="circle"></a>
         </div>
     </div>
 {% endblock menu %}
 
 {% block content %}
-    <div class="featured">
-        <div class="featured-menu">
-            <a class="active" href="#">Популярные</a><a href="#">Новинки</a>
-        </div>
-        <a class="explore" href="#">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
-        <div class="clearfix">
-        </div>
-        <div class="tab-content">
-            <div class="block">
-                <a href="#"><img src="{% static 'img/product-1.jpg' %}" alt="">
-                    <div class="text">
-                        <img src="{% static 'img/icon-hover.png' %}" alt="img">
-                        <h4>Отличный стул</h4>
-                        <p>Расположитесь комфортно. </p>
-                    </div>
-                </a>
-            </div>
-            <div class="block">
-                <a href="#"><img src="{% static 'img/product-2.jpg' %}" alt="">
-                    <div class="text">
-                        <img src="{% static 'img/icon-hover.png' %}" alt="">
-                        <h4>Стул повышенного качества</h4>
-                        <p>Не оторваться. </p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
+    {% include 'mainapp/includes/inc_featured_and_new_products.html' %}
+    {% include 'mainapp/includes/inc_promo_products.html' %}
+    {% include 'mainapp/includes/inc_trending_products.html' %}
+    {% include 'mainapp/includes/inc_hot_deal_products.html' %}
+    {% include 'mainapp/includes/inc_exclusive_products.html' %}
+    {% include 'mainapp/includes/inc_mobile_app_section.html' %}
 {% endblock content %}
