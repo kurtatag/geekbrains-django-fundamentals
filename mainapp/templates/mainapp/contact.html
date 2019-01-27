@@ -1,62 +1,128 @@
-{% extends 'mainapp/base.html' %}
-{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block menu %}
-    <div class="hero">
-        {% include 'mainapp/includes/inc_site_menu.html' %}
-        <h1>наши контакты</h1>
-    </div>
-{% endblock menu %}
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
 
-{% block content %}
-    <div class="location">
-        <div class="location-1">
-            <i class="fa fa-map-marker fa-5x"></i>
-            <h4>Москва</h4>
-            <div class="contacts">
-                <h5>Телефон</h5>
-                <p>+7-888-888-8888</p>
+<body>
+    <div class="container">
+        <div class="hero padding-site">
+            <div class="header">
+                <a class="logo" href="#"><img src="img/logo.svg" alt="logo"></a>
+                <ul class="menu">
+                    <li class="menu-list"><a href="#" class="menu-link-active">HOME</a></li>
+                    <li class="menu-list"><a href="#" class="menu-link">PRODUCTS</a></li>
+                    <li class="menu-list"><a href="#" class="menu-link">HISTORY</a></li>
+                    <li class="menu-list"><a href="#" class="menu-link">SHOWROOM</a></li>
+                    <li class="menu-list"><a href="#" class="menu-link">CONTACT</a></li>
+                    <li class="menu-list search">
+                        <a href="#">
+                            <img src="img/search.svg" alt="search">
+                        </a>
+                    </li>
+                </ul>
+                <img class="hamburger" src="img/bars-solid.svg" alt="menu icon">
             </div>
-            <div class="contacts">
-                <h5>Email</h5>
-                <p>info@geekshop.ru</p>
+            <h1 class="hero-title">Our Products Range</h1>
+        </div>
+
+        <div class="location">
+            <div class="location-1">
+                <i class="fas fa-map-marker-alt fa-5x"></i>
+                <h4>California</h4>
+                <div class="contacts">
+                    <h5>Phone:</h5>
+                    <p>1900 - 1234 - 5678</p>
+                </div>
+                <div class="contacts">
+                    <h5>Email</h5>
+                    <p>info@interior.com</p>
+                </div>
+                <div class="contacts">
+                    <h5>Address:</h5>
+                    <p>12 W 1st St, 90001 Los Angeles, California</p>
+                </div>
             </div>
-            <div class="contacts">
-                <h5>Адрес</h5>
-                <p>В пределах МКАД</p>
+            <div class="location-1">
+                <i class="fas fa-map-marker-alt fa-5x"></i>
+                <h4>California</h4>
+                <div class="contacts">
+                    <h5>Phone:</h5>
+                    <p>1900 - 1234 - 5678</p>
+                </div>
+                <div class="contacts">
+                    <h5>Email</h5>
+                    <p>info@interior.com</p>
+                </div>
+                <div class="contacts">
+                    <h5>Address:</h5>
+                    <p>12 W 1st St, 90001 Los Angeles, California</p>
+                </div>
+            </div>
+            <div class="location-1">
+                <i class="fas fa-map-marker-alt fa-5x"></i>
+                <h4>California</h4>
+                <div class="contacts">
+                    <h5>Phone:</h5>
+                    <p>1900 - 1234 - 5678</p>
+                </div>
+                <div class="contacts">
+                    <h5>Email</h5>
+                    <p>info@interior.com</p>
+                </div>
+                <div class="contacts">
+                    <h5>Address:</h5>
+                    <p>12 W 1st St, 90001 Los Angeles, California</p>
+                </div>
             </div>
         </div>
-        <div class="location-1">
-            <i class="fa fa-map-marker fa-5x"></i>
-            <h4>Москва</h4>
-            <div class="contacts">
-                <h5>Телефон</h5>
-                <p>+7-888-888-8888</p>
+
+        <div class="footer-section padding-site">
+            <div class="footer-top">
+                <div class="footer-top-col-1">
+                    <h2 class="footer-h2">CONTACT US</h2>
+                    <p class="footer-p">132A Bridge Road Richmond VIC Australia.<br>
+                    <br>Talk to us on 1300 132 <br>Info@Interlor.com</p>
+                </div>
+                <div class="footer-top-col-2">
+                    <h2 class="footer-h2">USEFUL INFORMATION</h2>
+                    <div class="footer-useful-info-content">
+                        <div class="footer-useful-info-content-col-1">
+                            <h4 class="footer-h4">SALES TERMS</h4>
+                            <h4 class="footer-h4">CUSTOMER CARE</h4>
+                            <h4 class="footer-h4">DELIVERY</h4>
+                        </div>
+                        <div class="footer-useful-info-content-col-2">
+                            <h4 class="footer-h4">ARCHITECT ACCOUNTS</h4>
+                            <h4 class="footer-h4">CAREERS</h4>
+                            <h4 class="footer-h4">EXCHANGES & RETURNS</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-top-col-3">
+                    <h2 class="footer-h2">CONTACT US</h2>
+                    <p class="footer-p">
+                        Suscribe to know about our latest news, products and
+                        special offers just for suscribers.
+                    </p>
+                    <form class="footer-form" action="">
+                        <input class="footer-email-input" type="email" name="email" placeholder="your email address">
+                        <input type="submit" value="" class="footer-btn-submit">
+                    </form>
+                </div>
             </div>
-            <div class="contacts">
-                <h5>Email</h5>
-                <p>info@geekshop.ru</p>
-            </div>
-            <div class="contacts">
-                <h5>Адрес</h5>
-                <p>В пределах МКАД</p>
-            </div>
-        </div>
-        <div class="location-1">
-            <i class="fa fa-map-marker fa-5x"></i>
-            <h4>Москва</h4>
-            <div class="contacts">
-                <h5>Телефон</h5>
-                <p>+7-888-888-8888</p>
-            </div>
-            <div class="contacts">
-                <h5>Email</h5>
-                <p>info@geekshop.ru</p>
-            </div>
-            <div class="contacts">
-                <h5>Адрес</h5>
-                <p>В пределах МКАД</p>
+            <div class="footer-bottom">
+                <p class="footer-bottom-p">&copy; copyright - interior 2016. all rights reserved.</p>
+                <a href="#"><img src="img/social-links.png" alt=""></a>
+                <p class="footer-bottom-p">terms & conditions / privacy policy & cookies</p>
             </div>
         </div>
     </div>
-{% endblock content %}
+</body>
+
+</html>
