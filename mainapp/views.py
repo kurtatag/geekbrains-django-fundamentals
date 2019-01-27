@@ -5,7 +5,7 @@ from my_utils import get_data_from_json
 
 site_navigation_links = get_data_from_json('site_navigation_links.json')
 product_category_menu_links = get_data_from_json('product_category_menu_links.json')
-related_products = get_data_from_json('related_products.json')
+product_list = get_data_from_json('product_list.json')
 
 
 def index(request: HttpRequest):
@@ -21,7 +21,7 @@ def products(request: HttpRequest, current_product_category='all'):
         'site_navigation_links': site_navigation_links,
         'product_category_menu_links': product_category_menu_links,
         'current_product_category': current_product_category,
-        'related_products': related_products
+        'product_list': product_list[current_product_category]
     }
     return render(request, 'mainapp/products.html', context)
 
