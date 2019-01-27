@@ -1,3 +1,4 @@
+{% load static %}
 * {
     margin: 0;
     padding: 0;
@@ -70,7 +71,7 @@ a {
     flex-direction: column;
     /*position: relative;*/
     height: 800px;
-    background-image: url(img/slider-img.jpg);
+    background-image: url(../img/slider-img.jpg);
 }
 
 .padding-site {
@@ -343,14 +344,14 @@ a {
 .promo-content-1 {
     height: 683px;
     width: 683px;
-    background-image: url("img/promo-img1.jpg");
+    background-image: url(../img/promo-img1.jpg);
     display: flex;
 }
 
 .promo-content-2 {
     height: 683px;
     width: 683px;
-    background-image: url("img/promo-img2.jpg");
+    background-image: url(../img/promo-img2.jpg);
     display: flex;
 }
 
@@ -484,7 +485,7 @@ a {
     display: flex;
     flex-direction: column;
     height: 800px;
-    background-image: url(img/slider_table.jpg);
+    background-image: url(../img/slider_table.jpg);
     margin-top: 90px;
     margin-bottom: 120px;
 }
@@ -509,7 +510,7 @@ a {
 .exclusive-content-1 {
     height: 570px;
     width: 570px;
-    background-image: url("img/exclusive-product-1-lg.jpg");
+    background-image: url(../img/exclusive-product-1-lg.jpg);
     display: flex;
 }
 
@@ -538,7 +539,7 @@ a {
     display: flex;
     flex-direction: column;
     height: 516px;
-    background-image: url(img/back-img.jpg);
+    background-image: url(../img/back-img.jpg);
 }
 
 .mobile-app {
@@ -630,7 +631,7 @@ a {
     width: 52px;
     border: none;
     background-color: transparent;
-    background-image: url(img/plane.png);
+    background-image: url(../img/plane.png);
     background-repeat: no-repeat;
     background-position: center;
 }
