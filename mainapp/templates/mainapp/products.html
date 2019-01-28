@@ -14,7 +14,7 @@
         <ul class="tab-controll">
             {% for category in product_category_list %}
                 <li class="tab-list">
-                    <a href="{% url 'products' current_product_category=category %}#categories"
+                    <a href="{% url 'products:category' current_product_category=category %}#categories"
                        class="{% if current_product_category == category %}
                                 products-tab-link-active
                               {% else %}

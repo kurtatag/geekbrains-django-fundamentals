@@ -4,7 +4,7 @@
     "name": "home"
   },
   {
-    "path_name": "products",
+    "path_name": "products:index",
     "name": "products"
   },
   {
