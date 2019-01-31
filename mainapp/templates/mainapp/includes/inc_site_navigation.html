@@ -5,7 +5,7 @@
         {% for link in site_navigation_links %}
             <li class="menu-list">
                 <a href="{% url link.path_name %}"
-                   class="{% if request.resolver_match.url_name == link.path_name %}
+                   class="{% if request.resolver_match.view_name == link.path_name %}
                             menu-link-active
                           {% else %}
                             menu-link
