@@ -14,7 +14,14 @@
         <br>
     {% endfor %}
 
-    <h2>Edit user</h2>
+    <form action="{% url 'auth:edit' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ edit_form.as_p }}
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <div class="user_avatar"><img src="/media/{{ user.avatar }}" alt=""></div>
 
     {% for _ in "xxxxx" %}
         <br>
