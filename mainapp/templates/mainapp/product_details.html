@@ -42,6 +42,9 @@
                             <div class="related-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                             <h4 class="related-product-h4">{{ related_product.name }}</h4>
                             <p class="related-product-p">{{ related_product.short_description }}</p>
+                            <a href="{% url 'cart:add' product.pk %}">
+                                <div class="trending-product-cart"><i class="fas fa-shopping-cart"></i></div>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
