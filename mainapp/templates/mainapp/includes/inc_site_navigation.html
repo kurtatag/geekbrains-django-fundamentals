@@ -56,7 +56,7 @@
             <li class="menu-list cart">
                 <a href="{% url 'cart:view' %}" >
                     <i class="fas fa-shopping-cart"></i>
-                    {% if cart %} <span class="cart-counter">{{ cart | length }} position(s)</span> {% endif %}
+                    <span class="cart-counter">{{ cart_info.items_total }} item(s) for ${{ cart_info.price_total }}</span>
                 </a>
             </li>
         {% endif %}

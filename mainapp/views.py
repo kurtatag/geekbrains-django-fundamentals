@@ -19,43 +19,71 @@ def index(request: HttpRequest):
 
 
 def products(request: HttpRequest, current_product_category='all'):
+
+    # get managers for products & categories
     categories = ProductCategory.objects
     products = Product.objects
 
+    # prepare a list of categories for "product category menu"
     product_category_list = ['all'] + [c.name for c in categories.all()]
 
+    # prepare a list of products for a case when a specific category is chosen
     if current_product_category == 'all':
         product_list = products.all()
     else:
         product_list = products.filter(category__name=current_product_category)
 
-    cart = []
-    if request.user.is_authenticated:
-        cart = Cart.objects.filter(user=request.user)
+    # prepare cart info to be displayed on the site navigation menu
+    cart_info = {
+        'items_total': 0,
+        'price_total': 0
+    }
 
+    if request.user.is_authenticated:
+        cart_info['items_total'] = Cart.items_total(user=request.user)
+        cart_info['price_total'] = Cart.price_total(user=request.user)
+
+    # prepare the context for the template
     context = {
         'title': 'products',
         'site_navigation_links': site_navigation_links,
         'product_category_list': product_category_list,
         'current_product_category': current_product_category,
         'product_list': product_list,
-        'cart': cart
+        'cart_info': cart_info
     }
+
     return render(request, 'mainapp/products.html', context)
 
 
 def product_details(request: HttpRequest, product_id):
+
     product = get_object_or_404(Product, pk=product_id)
+
+    # prepare a list of related products
     related_products = Product.objects \
                               .filter(category=product.category) \
                               .exclude(pk=product.pk)
 
+    # prepare cart info to be displayed on the site navigation menu
+    cart_info = {
+        'items_total': 0,
+        'price_total': 0
+    }
+
+    if request.user.is_authenticated:
+        cart_info['items_total'] = Cart.items_total(user=request.user)
+        cart_info['price_total'] = Cart.price_total(user=request.user)
+
+    # prepare the context for the template
     context = {
         'title': 'product details',
         'site_navigation_links': site_navigation_links,
         'product': product,
-        'related_products': related_products
+        'related_products': related_products,
+        'cart_info': cart_info
     }
+
     return render(request, 'mainapp/product_details.html', context)
 
 
