@@ -7,6 +7,10 @@
                 <a href="{% url link.path_name %}"
                    class="{% if request.resolver_match.view_name == link.path_name %}
                             menu-link-active
+                          {% elif request.resolver_match.view_name == 'products:category' and 'products' in link.path_name %}
+                            menu-link-active
+                          {% elif request.resolver_match.view_name == 'products:product_details' and 'products' in link.path_name %}
+                            menu-link-active
                           {% else %}
                             menu-link
                           {% endif %}">

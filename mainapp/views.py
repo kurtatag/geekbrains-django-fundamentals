@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
 from .models import Product, ProductCategory
 
@@ -35,6 +35,21 @@ def products(request: HttpRequest, current_product_category='all'):
         'product_list': product_list
     }
     return render(request, 'mainapp/products.html', context)
+
+
+def product_details(request: HttpRequest, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    related_products = Product.objects \
+                              .filter(category=product.category) \
+                              .exclude(pk=product.pk)
+
+    context = {
+        'title': 'product details',
+        'site_navigation_links': site_navigation_links,
+        'product': product,
+        'related_products': related_products
+    }
+    return render(request, 'mainapp/product_details.html', context)
 
 
 def contact(request: HttpRequest):
