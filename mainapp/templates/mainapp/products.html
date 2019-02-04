@@ -32,8 +32,8 @@
                         <a href="{% url 'products:product_details' product_id=product.id %}">
                             <div class="trending-product-link"><img src="{% static 'img/arrow.svg' %}" alt="arrow"></div>
                         </a>
-                        <h4 class="trending-product-h4">{{ product.short_description }}</h4>
-                        <p class="trending-product-p">{{ product.description }}</p>
+                        <h4 class="trending-product-h4">{{ product.name }}</h4>
+                        <p class="trending-product-p">{{ product.short_description }}</p>
                     </div>
                 </div>
             {% endfor %}

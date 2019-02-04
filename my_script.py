@@ -1,5 +1,9 @@
 from mainapp.models import ProductCategory, Product
 
+# delete all products & categories from db
+Product.objects.all().delete()
+ProductCategory.objects.all().delete()
+
 # add categories to db
 for name in ['home', 'office', 'furniture', 'modern', 'classic']:
     ProductCategory(name=name).save()
@@ -12,8 +16,8 @@ for category in ProductCategory.objects.all():
     for _ in range(3):
         Product(
             name=f'Product {counter + 1}',
-            short_description='Fishnet Chair',
-            description='Seat and back with upholstery made of cold cure foam',
+            short_description='Seat and back with upholstery made of cold cure foam',
+            description='Seat and back with upholstery made of cold cure foam. ' * 5,
             image=f'products_images/product-{counter % 6 + 1}.jpg',
             price=100,
             quantity=100,
