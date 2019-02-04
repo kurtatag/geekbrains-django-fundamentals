@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
+
+from cartapp.models import Cart
 from .models import Product, ProductCategory
 
 from my_utils import get_data_from_json
@@ -27,12 +29,17 @@ def products(request: HttpRequest, current_product_category='all'):
     else:
         product_list = products.filter(category__name=current_product_category)
 
+    cart = []
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+
     context = {
         'title': 'products',
         'site_navigation_links': site_navigation_links,
         'product_category_list': product_category_list,
         'current_product_category': current_product_category,
-        'product_list': product_list
+        'product_list': product_list,
+        'cart': cart
     }
     return render(request, 'mainapp/products.html', context)
 

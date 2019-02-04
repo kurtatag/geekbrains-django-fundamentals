@@ -3,10 +3,13 @@
 
 {% block menu %}
     <div class="hero padding-site">
-        {% include 'mainapp/includes/inc_site_navigation.html' %}
+        {% include 'mainapp/includes/inc_site_navigation.html'  %}
         <h1 class="hero-title">Our Products Range</h1>
     </div>
+
 {% endblock menu %}
+
+
 
 {% block content %}
     <div id="categories"></div>
@@ -34,6 +37,9 @@
                         </a>
                         <h4 class="trending-product-h4">{{ product.name }}</h4>
                         <p class="trending-product-p">{{ product.short_description }}</p>
+                        <a href="{% url 'cart:add' product.pk %}">
+                            <div class="trending-product-cart"><img src="{% static 'img/cart.png' %}" alt="cart"></div>
+                        </a>
                     </div>
                 </div>
             {% endfor %}

@@ -52,5 +52,13 @@
                 <img src="{% static 'img/search.svg' %}" alt="search">
             </a>
         </li>
+        {% if 'product' in request.path %}
+            <li class="menu-list cart">
+                <a href="{% url 'cart:view' %}" >
+                    <i class="fas fa-shopping-cart"></i>
+                    {% if cart %} <span class="cart-counter">{{ cart | length }} position(s)</span> {% endif %}
+                </a>
+            </li>
+        {% endif %}
     </ul>
 </div>

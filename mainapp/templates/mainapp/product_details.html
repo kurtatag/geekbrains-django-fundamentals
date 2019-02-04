@@ -21,8 +21,8 @@
                 <h3 class="big-bold">{{ product.name }}</h3>
                 <h3 class="red">HOT DEAL</h3>
                 <p class="price"> ${{ product.price }}</p>
-                <a href="#" class="red-button">
-                    ORDER US <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                <a href="{% url 'cart:add' product.pk %}" class="red-button">
+                    ADD TO CART <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </a>
                 <div class="description-text">
                     <p>{{ product.description }}</p>
