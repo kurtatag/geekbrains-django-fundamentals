@@ -29,3 +29,6 @@ class Cart(models.Model):
             price_total += cart_product.product.price * cart_product.quantity
 
         return price_total
+
+    def __str__(self):
+        return f"{self.product} - {self.quantity} items"
