@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from cartapp.models import Cart
 from mainapp.models import Product
@@ -8,6 +10,7 @@ from my_utils import get_data_from_json
 site_navigation_links = get_data_from_json('site_navigation_links.json')
 
 
+@login_required
 def cart(request: HttpRequest):
     cart = Cart.objects.filter(user=request.user)
 
@@ -30,6 +33,7 @@ def cart(request: HttpRequest):
     return render(request, 'cartapp/cart.html', context)
 
 
+@login_required
 def cart_add(request: HttpRequest, pk: int):
     product = get_object_or_404(Product, pk=pk)
 
@@ -41,9 +45,13 @@ def cart_add(request: HttpRequest, pk: int):
     cart.quantity += 1
     cart.save()
 
+    if 'login' in request.META.get('HTTP_REFERER'):
+        return HttpResponseRedirect(reverse('products:product_details', args=[pk]))
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def cart_remove(request: HttpRequest, pk: int):
 
     cart_product = get_object_or_404(Cart, pk=pk)
