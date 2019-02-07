@@ -52,7 +52,7 @@
                 <img src="{% static 'img/search.svg' %}" alt="search">
             </a>
         </li>
-        {% if 'product' in request.path %}
+        {% if 'product' in request.path or 'cart' in request.path %}
             <li class="menu-list cart">
                 <a href="{% url 'cart:view' %}" >
                     <i class="fas fa-shopping-cart"></i>
