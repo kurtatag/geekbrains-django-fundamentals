@@ -7,6 +7,10 @@
                 <a href="{% url link.path_name %}"
                    class="{% if request.resolver_match.view_name == link.path_name %}
                             menu-link-active
+                          {% elif request.resolver_match.view_name == 'products:category' and 'products' in link.path_name %}
+                            menu-link-active
+                          {% elif request.resolver_match.view_name == 'products:product_details' and 'products' in link.path_name %}
+                            menu-link-active
                           {% else %}
                             menu-link
                           {% endif %}">
@@ -48,5 +52,13 @@
                 <img src="{% static 'img/search.svg' %}" alt="search">
             </a>
         </li>
+        {% if 'product' in request.path %}
+            <li class="menu-list cart">
+                <a href="{% url 'cart:view' %}" >
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-counter">{{ cart_info.items_total }} item(s) for ${{ cart_info.price_total }}</span>
+                </a>
+            </li>
+        {% endif %}
     </ul>
 </div>
