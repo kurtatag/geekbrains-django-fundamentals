@@ -48,8 +48,8 @@
         {% endif %}
 
         <li class="menu-list search">
-            <a href="#">
-                <img src="{% static 'img/search.svg' %}" alt="search">
+            <a href="#" class="menu-link-search">
+                <i class="fas fa-search"></i>
             </a>
         </li>
         {% if 'product' in request.path or 'cart' in request.path %}
