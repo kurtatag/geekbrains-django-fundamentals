@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.http import JsonResponse
 
 from cartapp.models import Cart
 from mainapp.models import Product
@@ -58,3 +59,18 @@ def cart_remove(request: HttpRequest, pk: int):
     cart_product.delete()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def cart_edit(request: HttpRequest, pk: int, quantity: int):
+    cart_product = Cart.objects.get(pk=int(pk))
+    cart_product.quantity = int(quantity)
+    cart_product.save()
+
+    data = {
+        'product_price_total': cart_product.product_price_total,
+        'cart_price_total': Cart.cart_price_total(user=request.user),
+        'cart_items_total': Cart.cart_items_total(user=request.user)
+    }
+
+    return JsonResponse(data)

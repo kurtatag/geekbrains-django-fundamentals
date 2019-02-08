@@ -19,6 +19,7 @@
         {% if cart %}
             {% for cart_product in cart %}
                 <div class="item">
+                    <div class="cart-product-id" style="display: none;">{{ cart_product.pk }}</div>
                     <div class="buttons">
                         <a href="{% url 'cart:remove' cart_product.pk %}">
                             <span class="delete-btn"></span>
