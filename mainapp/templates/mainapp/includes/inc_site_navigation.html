@@ -48,15 +48,18 @@
         {% endif %}
 
         <li class="menu-list search">
-            <a href="#">
-                <img src="{% static 'img/search.svg' %}" alt="search">
+            <a href="#" class="menu-link-search">
+                <i class="fas fa-search"></i>
             </a>
         </li>
-        {% if 'product' in request.path %}
+        {% if 'product' in request.path or 'cart' in request.path %}
             <li class="menu-list cart">
                 <a href="{% url 'cart:view' %}" >
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-counter">{{ cart_info.items_total }} item(s) for ${{ cart_info.price_total }}</span>
+                    <span class="cart-counter">
+                        <span id="cart-items-total">{{ cart_info.items_total }}</span> item(s) for
+                        <span id="cart-price-total">${{ cart_info.price_total }}</span>
+                    </span>
                 </a>
             </li>
         {% endif %}

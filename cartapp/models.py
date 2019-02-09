@@ -11,7 +11,7 @@ class Cart(models.Model):
     add_datetime = models.DateTimeField(verbose_name='time', auto_now_add=True)
 
     @classmethod
-    def items_total(cls, user):
+    def cart_items_total(cls, user):
         cart_products = cls.objects.filter(user=user)
 
         quantity_total = 0
@@ -21,7 +21,7 @@ class Cart(models.Model):
         return quantity_total
 
     @classmethod
-    def price_total(cls, user):
+    def cart_price_total(cls, user):
         cart_products = cls.objects.filter(user=user)
 
         price_total = 0
@@ -29,6 +29,10 @@ class Cart(models.Model):
             price_total += cart_product.product.price * cart_product.quantity
 
         return price_total
+
+    @property
+    def product_price_total(self):
+        return self.quantity * self.product.price
 
     def __str__(self):
         return f"{self.product} - {self.quantity} items"

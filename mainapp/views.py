@@ -40,8 +40,8 @@ def products(request: HttpRequest, current_product_category='all'):
     }
 
     if request.user.is_authenticated:
-        cart_info['items_total'] = Cart.items_total(user=request.user)
-        cart_info['price_total'] = Cart.price_total(user=request.user)
+        cart_info['items_total'] = Cart.cart_items_total(user=request.user)
+        cart_info['price_total'] = Cart.cart_price_total(user=request.user)
 
     # prepare the context for the template
     context = {
@@ -72,8 +72,8 @@ def product_details(request: HttpRequest, product_id):
     }
 
     if request.user.is_authenticated:
-        cart_info['items_total'] = Cart.items_total(user=request.user)
-        cart_info['price_total'] = Cart.price_total(user=request.user)
+        cart_info['items_total'] = Cart.cart_items_total(user=request.user)
+        cart_info['price_total'] = Cart.cart_price_total(user=request.user)
 
     # prepare the context for the template
     context = {

@@ -37,9 +37,6 @@
                         </a>
                         <h4 class="trending-product-h4">{{ product.name }}</h4>
                         <p class="trending-product-p">{{ product.short_description }}</p>
-                        <a href="{% url 'cart:add' product.pk %}">
-                            <div class="trending-product-cart"><i class="fas fa-shopping-cart"></i></div>
-                        </a>
                     </div>
                 </div>
             {% endfor %}
