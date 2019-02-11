@@ -79,5 +79,7 @@ def update(request: HttpRequest, pk):
 @user_passes_test(lambda user: user.is_superuser)
 def delete(request: HttpRequest, pk):
     category = get_object_or_404(ProductCategory, pk=pk)
-    category.delete()
-    return HttpResponseRedirect(reverse('admin:categories'))
+    # category.delete()
+    category.is_active = False
+    category.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

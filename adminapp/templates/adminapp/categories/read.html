@@ -3,10 +3,10 @@
 {% block content %}
     <ul class="list-group list-group-flush mt-5 mx-auto col-10">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <h2 class="text-primary">Category: {{ category }}</h2>
+            <h2 class="text-primary">Category: {{ category }} {% if not category.is_active %}<span class="badge badge-dark">Not Active</span>{% endif %}</h2>
             <span>
                 <a class="btn btn-warning" href="{% url 'admin:category_update' pk=category.pk %}" role="button"> Edit </a>
-                <a class="btn btn-danger" href="{% url 'admin:category_delete' pk=category.pk %}" role="button">Delete</a>
+                <a class="btn btn-danger {% if not category.is_active %}disabled{% endif %}" href="{% url 'admin:category_delete' pk=category.pk %}" role="button">Delete</a>
             </span>
         </li>
     </ul>
