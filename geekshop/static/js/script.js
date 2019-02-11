@@ -53,4 +53,32 @@ window.onload = function () {
         });
     });
 
+
+    $('.dropdown-item').on('click', function(){
+        var category = $(this).text().toLowerCase();
+        $('#dropdownMenuButton').text(category);
+
+        $.ajax({
+            url: "/admin/products/list/" + category + "/",
+            success: function (data) {
+                var products_data = data.products;
+                var products = $('#prducts-by-category');
+                products.html("");
+
+                for (var i = 0; i < products_data.length; i++) {
+                    products.append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="/admin/products/read/${products_data[i].product_id}/" class="text-dark">
+                                            ${products_data[i].product_name}
+                                        </a>
+                                        <span>
+                                            <a class="btn btn-warning" href="/admin/products/update/${products_data[i].product_id}/" role="button"> Edit </a>
+                                            <a class="btn btn-danger" href="/admin/products/delete/${products_data[i].product_id}/" role="button">Delete</a>
+                                        </span>
+                                    </li>`);
+                }
+            },
+        });
+
+    });
+
 }
