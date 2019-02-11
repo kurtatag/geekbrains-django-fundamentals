@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.forms.models import model_to_dict
@@ -7,6 +8,7 @@ from mainapp.models import Product, ProductCategory
 from adminapp.forms import ProductEditForm
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def index(request: HttpRequest):
     title = 'products'
     products = Product.objects.all()
@@ -20,6 +22,7 @@ def index(request: HttpRequest):
     return render(request, 'adminapp/products/index.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def create(request: HttpRequest):
     title = 'new product'
 
@@ -39,6 +42,7 @@ def create(request: HttpRequest):
     return render(request, 'adminapp/products/create.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def read(request: HttpRequest, pk: int):
     title = 'product: {}'
     product = get_object_or_404(Product, pk=pk)
@@ -56,6 +60,7 @@ def read(request: HttpRequest, pk: int):
     return render(request, 'adminapp/products/read.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def list_by_category(request: HttpRequest, category):
 
     if category == 'all':
@@ -75,6 +80,7 @@ def list_by_category(request: HttpRequest, category):
     return JsonResponse(data)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def update(request: HttpRequest, pk):
     title = 'edit category: {}'
     product = get_object_or_404(Product, pk=pk)
@@ -95,6 +101,7 @@ def update(request: HttpRequest, pk):
     return render(request, 'adminapp/products/update.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def delete(request: HttpRequest, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()

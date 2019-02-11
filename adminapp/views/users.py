@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.forms.models import model_to_dict
@@ -7,6 +8,7 @@ from authapp.models import ShopUser
 from authapp.forms import ShopUserRegisterForm, ShopUserEditForm
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def index(request: HttpRequest):
     title = 'users'
     users = ShopUser.objects.all()
@@ -18,6 +20,7 @@ def index(request: HttpRequest):
     return render(request, 'adminapp/users/index.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def create(request: HttpRequest):
     title = 'new user'
 
@@ -37,6 +40,7 @@ def create(request: HttpRequest):
     return render(request, 'adminapp/users/create.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def read(request: HttpRequest, pk):
     title = 'user: {}'
     user = get_object_or_404(ShopUser, pk=pk)
@@ -54,6 +58,7 @@ def read(request: HttpRequest, pk):
     return render(request, 'adminapp/users/read.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def update(request: HttpRequest, pk):
     title = 'edit user: {}'
     user = get_object_or_404(ShopUser, pk=pk)
@@ -74,6 +79,7 @@ def update(request: HttpRequest, pk):
     return render(request, 'adminapp/users/update.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def delete(request: HttpRequest, pk):
     product = get_object_or_404(ShopUser, pk=pk)
     product.delete()
