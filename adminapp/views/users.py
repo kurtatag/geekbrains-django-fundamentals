@@ -81,6 +81,6 @@ def update(request: HttpRequest, pk):
 
 @user_passes_test(lambda user: user.is_superuser)
 def delete(request: HttpRequest, pk):
-    product = get_object_or_404(ShopUser, pk=pk)
-    product.delete()
+    user = get_object_or_404(ShopUser, pk=pk)
+    user.delete()
     return HttpResponseRedirect(reverse('admin:users'))
