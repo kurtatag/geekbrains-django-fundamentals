@@ -21,7 +21,7 @@ urlpatterns = [
     path('products/list/<str:category>/', products.list_by_category, name='products_by_category'),
     path('products/update/<int:pk>/', products.update, name='product_update'),
     path('products/delete/<int:pk>/', products.delete, name='product_delete'),
-    #
+
     # categories
     path('categories/', categories.index, name='categories'),
     path('categories/create/', categories.create, name='category_create'),
