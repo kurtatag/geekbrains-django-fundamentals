@@ -89,7 +89,7 @@ def update(request: HttpRequest, pk):
         form = ProductEditForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('admin:products'))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     form = ProductEditForm(instance=product)
 
@@ -104,5 +104,7 @@ def update(request: HttpRequest, pk):
 @user_passes_test(lambda user: user.is_superuser)
 def delete(request: HttpRequest, pk):
     product = get_object_or_404(Product, pk=pk)
-    product.delete()
-    return HttpResponseRedirect(reverse('admin:products'))
+    # product.delete()
+    product.is_active = False
+    product.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

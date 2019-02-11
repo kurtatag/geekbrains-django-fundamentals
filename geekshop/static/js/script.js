@@ -70,10 +70,7 @@ window.onload = function () {
                                         <a href="/admin/products/read/${products_data[i].product_id}/" class="text-dark">
                                             ${products_data[i].product_name}
                                         </a>
-                                        <span>
-                                            <a class="btn btn-warning" href="/admin/products/update/${products_data[i].product_id}/" role="button"> Edit </a>
-                                            <a class="btn btn-danger" href="/admin/products/delete/${products_data[i].product_id}/" role="button">Delete</a>
-                                        </span>
+                                        <a class="btn btn-primary" href="/admin/products/read/${products_data[i].product_id}/" role="button">View</a>
                                     </li>`);
                 }
             },

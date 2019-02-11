@@ -27,12 +27,9 @@
         {% for product in products %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="{% url 'admin:product_read' pk=product.id %}" class="text-dark">
-                    {{ product.name }}
+                    {{ product.name }} {% if not product.is_active %}<span class="badge badge-dark">Not Active</span>{% endif %}
                 </a>
-                <span>
-                    <a class="btn btn-warning" href="{% url 'admin:product_update' pk=product.pk %}" role="button"> Edit </a>
-                    <a class="btn btn-danger" href="{% url 'admin:product_delete' pk=product.pk %}" role="button">Delete</a>
-                </span>
+                <a class="btn btn-primary" href="{% url 'admin:product_read' pk=product.pk %}" role="button">View</a>
             </li>
         {% endfor %}
     </ul>
