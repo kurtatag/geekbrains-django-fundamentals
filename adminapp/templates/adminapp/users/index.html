@@ -10,11 +10,11 @@
         {% for user in users %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="{% url 'admin:user_read' pk=user.pk %}" class="text-dark">
-                    {{ user }}
+                    {{ user }} {% if not user.is_active %}<span class="badge badge-dark">Not Active</span>{% endif %}
                 </a>
                 <span>
                     <a class="btn btn-warning" href="{% url 'admin:user_update' pk=user.pk %}" role="button"> Edit </a>
-                    <a class="btn btn-danger" href="{% url 'admin:user_delete' pk=user.pk %}" role="button">Delete</a>
+                    <a class="btn btn-danger {% if not user.is_active %}disabled{% endif %}" href="{% url 'admin:user_delete' pk=user.pk %}" role="button">Delete</a>
                 </span>
             </li>
         {% endfor %}
