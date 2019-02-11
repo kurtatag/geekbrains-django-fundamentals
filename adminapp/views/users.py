@@ -67,7 +67,7 @@ def update(request: HttpRequest, pk):
         form = ShopUserEditForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('admin:users'))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     form = ShopUserEditForm(instance=user)
 

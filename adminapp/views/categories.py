@@ -64,7 +64,7 @@ def update(request: HttpRequest, pk):
         form = ProductCategoryEditForm(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('admin:categories'))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     form = ProductCategoryEditForm(instance=category)
 
