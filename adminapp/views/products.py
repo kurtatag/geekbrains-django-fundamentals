@@ -12,7 +12,7 @@ from adminapp.forms import ProductEditForm
 def index(request: HttpRequest):
     title = 'products'
     products = Product.objects.all()
-    categories = ['all'] + [c.name for c in ProductCategory.objects.all()]
+    categories = ['all'] + [c.name for c in ProductCategory.objects.filter(is_active=True)]
 
     context = {
         'title': title,
