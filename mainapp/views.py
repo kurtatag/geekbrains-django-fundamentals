@@ -25,13 +25,16 @@ def products(request: HttpRequest, current_product_category='all'):
     products = Product.objects
 
     # prepare a list of categories for "product category menu"
-    product_category_list = ['all'] + [c.name for c in categories.all()]
+    product_category_list = ['all'] + [c.name for c in categories.filter(is_active=True)]
 
     # prepare a list of products for a case when a specific category is chosen
     if current_product_category == 'all':
-        product_list = products.all()
+        product_list = products.filter(is_active=True)
     else:
-        product_list = products.filter(category__name=current_product_category)
+        product_list = products.filter(
+            is_active=True,
+            category__name=current_product_category
+        )
 
     # prepare cart info to be displayed on the site navigation menu
     cart_info = {
