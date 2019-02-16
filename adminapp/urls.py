@@ -5,7 +5,7 @@ from adminapp.views import users, categories, products
 app_name = 'adminapp'
 
 urlpatterns = [
-    path('', categories.index, name='index'),
+    path('', categories.CategoryList.as_view(), name='index'),
 
     # users
     path('users/', users.index, name='users'),
@@ -23,11 +23,9 @@ urlpatterns = [
     path('products/delete/<int:pk>/', products.delete, name='product_delete'),
 
     # categories
-    path('categories/', categories.index, name='categories'),
-    path('categories/create/', categories.create, name='category_create'),
-    path('categories/read/<int:pk>/', categories.read, name='category_read'),
-    path('categories/update/<int:pk>/', categories.update, name='category_update'),
-    path('categories/delete/<int:pk>/', categories.delete, name='category_delete'),
-
-
+    path('categories/', categories.CategoryList.as_view(), name='categories'),
+    path('categories/create/', categories.CategoryCreate.as_view(), name='category_create'),
+    path('categories/read/<int:pk>/', categories.CategoryDetail.as_view(), name='category_read'),
+    path('categories/update/<int:pk>/', categories.CategoryUpdate.as_view(), name='category_update'),
+    path('categories/delete/<int:pk>/', categories.CategoryDelete.as_view(), name='category_delete'),
 ]
