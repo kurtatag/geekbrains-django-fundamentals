@@ -448,7 +448,8 @@ a {
 .trending-product-box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    justify-content: flex-start;
     margin-top: 64px;
 }
 
@@ -456,6 +457,7 @@ a {
     height: 370px;
     width: 370px;
     margin-bottom: 30px;
+    margin-right: 20px;
 }
 
 .trending-product:hover .trending-product-hover {
@@ -1327,4 +1329,38 @@ input:focus {
   font-weight: 300;
 }
 
+
+/* ------------------------------ pagination ------------------------------ */
+
+.pagination-section {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #1e88e5;
+  color: white;
+  border: 1px solid #1e88e5;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.isDisabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
 
