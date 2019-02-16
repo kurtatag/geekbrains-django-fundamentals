@@ -1,5 +1,5 @@
 """
-WSGI config for geekshop project.
+WSGI config for geekshop_project project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'geekshop.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'geekshop_project.settings')
 
 application = get_wsgi_application()

@@ -1,7 +1,7 @@
 import json
 import os
 
-from geekshop.settings import BASE_DIR
+from geekshop_project.settings import BASE_DIR
 
 
 def get_data_from_json(file_name: str):
