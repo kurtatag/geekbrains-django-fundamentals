@@ -1,88 +1,102 @@
 from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.forms.models import model_to_dict
-from django.urls import reverse
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.detail import View, SingleObjectMixin
+from django.contrib import messages
 
 from authapp.models import ShopUser
 from authapp.forms import ShopUserRegisterForm, ShopUserEditForm
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def index(request: HttpRequest):
-    title = 'users'
-    users = ShopUser.objects.all()
+class UserList(ListView):
+    model = ShopUser
+    context_object_name = 'users'
+    template_name = 'adminapp/users/index.html'
 
-    context = {
-        'title': title,
-        'users': users
-    }
-    return render(request, 'adminapp/users/index.html', context)
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-
-@user_passes_test(lambda user: user.is_superuser)
-def create(request: HttpRequest):
-    title = 'new user'
-
-    if request.method == 'POST':
-        form = ShopUserRegisterForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('admin:users'))
-
-    form = ShopUserRegisterForm()
-
-    context = {
-        'title': title,
-        'form': form,
-    }
-
-    return render(request, 'adminapp/users/create.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'users'
+        return context
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def read(request: HttpRequest, pk):
-    title = 'user: {}'
-    user = get_object_or_404(ShopUser, pk=pk)
+class UserCreate(SuccessMessageMixin, CreateView):
+    template_name = 'adminapp/users/create.html'
+    form_class = ShopUserRegisterForm
+    success_url = reverse_lazy('admin:users')
 
-    fields_to_show = ['id', 'username', 'email', 'age', 'avatar',
-                      'is_superuser', 'is_staff', 'is_active']
-    user_data = model_to_dict(user, fields_to_show)
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    context = {
-        'title': title.format(user.username),
-        'user': user,
-        'user_data': user_data,
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'new user'
+        return context
 
-    return render(request, 'adminapp/users/read.html', context)
-
-
-@user_passes_test(lambda user: user.is_superuser)
-def update(request: HttpRequest, pk):
-    title = 'edit user: {}'
-    user = get_object_or_404(ShopUser, pk=pk)
-
-    if request.method == 'POST':
-        form = ShopUserEditForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    form = ShopUserEditForm(instance=user)
-
-    context = {
-        'title': title.format(user.username),
-        'form': form,
-    }
-
-    return render(request, 'adminapp/users/update.html', context)
+    def get_success_message(self, cleaned_data):
+        return 'User "{}" was successfully created!'.format(self.object)
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def delete(request: HttpRequest, pk):
-    user = get_object_or_404(ShopUser, pk=pk)
-    # user.delete()
-    user.is_active = False
-    user.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class UserDetail(DetailView):
+    model = ShopUser
+    context_object_name = 'user'
+    template_name = 'adminapp/users/read.html'
+
+    def get_user_data(self):
+        fields_to_show = ['id', 'username', 'email', 'age', 'avatar',
+                          'is_superuser', 'is_staff', 'is_active']
+        return model_to_dict(self.object, fields_to_show)
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'user: {}'.format(self.get_object().username)
+        context['user_data'] = self.get_user_data()
+        return context
+
+
+class UserUpdate(SuccessMessageMixin, UpdateView):
+    model = ShopUser
+    template_name = 'adminapp/users/update.html'
+    form_class = ShopUserEditForm
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'user: {}'.format(self.get_object().username)
+        return context
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def get_success_message(self, cleaned_data):
+        return 'User "{}" was successfully updated!'.format(self.object)
+
+
+class UserDelete(SingleObjectMixin, View):
+    model = ShopUser
+
+    def get(self, *args, **kwargs):
+        user = self.get_object()
+        user.is_active = False
+        user.save()
+
+        success_message = 'User "{}" was successfully deleted!'
+        messages.success(self.request, success_message.format(user))
+
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))

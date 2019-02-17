@@ -8,11 +8,11 @@ urlpatterns = [
     path('', categories.CategoryList.as_view(), name='index'),
 
     # users
-    path('users/', users.index, name='users'),
-    path('users/create/', users.create, name='user_create'),
-    path('users/read/<int:pk>/', users.read, name='user_read'),
-    path('users/update/<int:pk>/', users.update, name='user_update'),
-    path('users/delete/<int:pk>/', users.delete, name='user_delete'),
+    path('users/', users.UserList.as_view(), name='users'),
+    path('users/create/', users.UserCreate.as_view(), name='user_create'),
+    path('users/read/<int:pk>/', users.UserDetail.as_view(), name='user_read'),
+    path('users/update/<int:pk>/', users.UserUpdate.as_view(), name='user_update'),
+    path('users/delete/<int:pk>/', users.UserDelete.as_view(), name='user_delete'),
 
     # products
     path('products/', products.index, name='products'),
