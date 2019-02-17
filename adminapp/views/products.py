@@ -9,6 +9,7 @@ from django.views.generic.detail import View, SingleObjectMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mainapp.models import Product, ProductCategory
 from adminapp.forms import ProductEditForm
@@ -26,7 +27,8 @@ class ProductList(ListView):
 
     @staticmethod
     def get_category_list():
-        return ['all'] + [c.name for c in ProductCategory.objects.filter(is_active=True)]
+        categories = ProductCategory.objects.filter(is_active=True)
+        return ['all'] + [c.name for c in categories]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,14 +83,37 @@ class ProductListByCategory(View):
         return super().dispatch(*args, **kwargs)
 
     def get(self, request, category):
+
         if category == 'all':
             products = Product.objects.all()
         else:
             category_object = get_object_or_404(ProductCategory, name=category)
             products = category_object.products.all()
 
-        data = {'products': []}
-        for product in products:
+        page = 1
+        if 'page' in self.request.GET:
+            page = self.request.GET['page']
+
+        paginator = Paginator(products, 2)
+        try:
+            products_paginator = paginator.page(page)
+        except PageNotAnInteger:
+            products_paginator = paginator.page(1)
+        except EmptyPage:
+            products_paginator = paginator.page(paginator.num_pages)
+
+        data = {
+            'products': [],
+            'page_info': {
+                'has_other_pages': products_paginator.has_other_pages(),
+                'has_previous': products_paginator.has_previous(),
+                'has_next': products_paginator.has_next(),
+                'page_range': list(products_paginator.paginator.page_range),
+                'page_number': products_paginator.number,
+            }
+        }
+
+        for product in products_paginator:
             product_info = {
                 'product_id': product.id,
                 'product_name': product.name

@@ -22,17 +22,17 @@
                 </div>
             </div>
         </div>
-        <ul id="prducts-by-category" class="list-group list-group-flush mx-auto col-10">
-            {% for product in products %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{% url 'admin:product_read' pk=product.id %}" class="text-dark">
-                        {{ product.name }} {% if not product.is_active %}
-                        <span class="badge badge-dark">Not Active</span>{% endif %}
-                    </a>
-                    <a class="btn btn-primary" href="{% url 'admin:product_read' pk=product.pk %}"
-                       role="button">View</a>
-                </li>
-            {% endfor %}
-        </ul>
+            <ul id="prducts-by-category" class="list-group list-group-flush mx-auto col-10" style="min-height: 200px;">
+                {% for product in products %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'admin:product_read' pk=product.id %}" class="text-dark">
+                            {{ product.name }} {% if not product.is_active %}
+                            <span class="badge badge-dark">Not Active</span>{% endif %}
+                        </a>
+                        <a class="btn btn-primary" href="{% url 'admin:product_read' pk=product.pk %}"
+                           role="button">View</a>
+                    </li>
+                {% endfor %}
+            </ul>
     {% include 'adminapp/includes/_pagination.html' %}
 {% endblock %}
