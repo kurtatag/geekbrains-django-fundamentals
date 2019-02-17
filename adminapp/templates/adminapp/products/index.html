@@ -2,15 +2,12 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="row">
         <ul class="list-group list-group-flush mt-5 mx-auto col-10">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <h2>Products</h2>
                 <a class="btn btn-success" href="{% url 'admin:product_create' %}" role="button">New Product</a>
             </li>
         </ul>
-    </div>
-    <div class="row">
         <div class="d-flex justify-content-start align-items-center mt-5 mb-3 mx-auto col-10">
             <h5 class="mr-3">Category:</h5>
             <div class="dropdown">
@@ -25,8 +22,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <ul id="prducts-by-category" class="list-group list-group-flush mx-auto col-10">
             {% for product in products %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -39,6 +34,5 @@
                 </li>
             {% endfor %}
         </ul>
-    </div>
     {% include 'adminapp/includes/_pagination.html' %}
 {% endblock %}
