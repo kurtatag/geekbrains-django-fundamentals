@@ -18,6 +18,7 @@ class ProductList(ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'adminapp/products/index.html'
+    paginate_by = 2
 
     @method_decorator(user_passes_test(lambda user: user.is_superuser))
     def dispatch(self, *args, **kwargs):
