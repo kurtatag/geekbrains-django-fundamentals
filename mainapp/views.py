@@ -30,7 +30,10 @@ def products(request: HttpRequest, current_product_category='all'):
 
     # prepare a list of products
     if current_product_category == 'all':
-        product_list = products.filter(is_active=True)
+        product_list = products.filter(
+            is_active=True,
+            category__is_active=True
+        )
     else:
         product_list = products.filter(
             is_active=True,
