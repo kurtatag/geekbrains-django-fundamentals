@@ -1,110 +1,132 @@
 from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
-from django.urls import reverse
+
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic.detail import View, SingleObjectMixin
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.decorators import method_decorator
 
 from mainapp.models import Product, ProductCategory
 from adminapp.forms import ProductEditForm
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def index(request: HttpRequest):
-    title = 'products'
-    products = Product.objects.all()
-    categories = ['all'] + [c.name for c in ProductCategory.objects.filter(is_active=True)]
+class ProductList(ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'adminapp/products/index.html'
 
-    context = {
-        'title': title,
-        'products': products,
-        'categories': categories
-    }
-    return render(request, 'adminapp/products/index.html', context)
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
+    @staticmethod
+    def get_category_list():
+        return ['all'] + [c.name for c in ProductCategory.objects.filter(is_active=True)]
 
-@user_passes_test(lambda user: user.is_superuser)
-def create(request: HttpRequest):
-    title = 'new product'
-
-    if request.method == 'POST':
-        form = ProductEditForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('admin:products'))
-
-    form = ProductEditForm()
-
-    context = {
-        'title': title,
-        'form': form,
-    }
-
-    return render(request, 'adminapp/products/create.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'products'
+        context['categories'] = ProductList.get_category_list()
+        return context
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def read(request: HttpRequest, pk: int):
-    title = 'product: {}'
-    product = get_object_or_404(Product, pk=pk)
+class ProductCreate(SuccessMessageMixin, CreateView):
+    template_name = 'adminapp/products/create.html'
+    form_class = ProductEditForm
+    success_url = reverse_lazy('admin:products')
 
-    fields_to_show = ['id', 'name', 'short_description',
-                      'description', 'image']
-    product_data = model_to_dict(product, fields_to_show)
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    context = {
-        'title': title.format(product.name),
-        'product': product,
-        'product_data': product_data,
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'new product'
+        return context
 
-    return render(request, 'adminapp/products/read.html', context)
-
-
-@user_passes_test(lambda user: user.is_superuser)
-def list_by_category(request: HttpRequest, category):
-
-    if category == 'all':
-        products = Product.objects.all()
-    else:
-        category_object = get_object_or_404(ProductCategory, name=category)
-        products = category_object.products.all()
-
-    data = {'products': []}
-    for product in products:
-        product_info = {
-            'product_id': product.id,
-            'product_name': product.name
-        }
-        data['products'].append(product_info)
-
-    return JsonResponse(data)
+    def get_success_message(self, cleaned_data):
+        return 'Product "{}" was successfully created!'.format(self.object)
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def update(request: HttpRequest, pk):
-    title = 'edit category: {}'
-    product = get_object_or_404(Product, pk=pk)
+class ProductDetail(DetailView):
+    model = Product
+    context_object_name = 'product'
+    template_name = 'adminapp/products/read.html'
 
-    if request.method == 'POST':
-        form = ProductEditForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    def get_product_data(self):
+        fields_to_show = ['id', 'name', 'short_description',
+                          'description', 'image']
+        return model_to_dict(self.object, fields_to_show)
 
-    form = ProductEditForm(instance=product)
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    context = {
-        'title': title.format(product.name),
-        'form': form,
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'product: {}'.format(self.get_object().name)
+        context['product_data'] = self.get_product_data()
+        return context
 
-    return render(request, 'adminapp/products/update.html', context)
+
+class ProductListByCategory(View):
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get(self, request, category):
+        if category == 'all':
+            products = Product.objects.all()
+        else:
+            category_object = get_object_or_404(ProductCategory, name=category)
+            products = category_object.products.all()
+
+        data = {'products': []}
+        for product in products:
+            product_info = {
+                'product_id': product.id,
+                'product_name': product.name
+            }
+            data['products'].append(product_info)
+
+        return JsonResponse(data)
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def delete(request: HttpRequest, pk):
-    product = get_object_or_404(Product, pk=pk)
-    # product.delete()
-    product.is_active = False
-    product.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class ProductUpdate(SuccessMessageMixin, UpdateView):
+    model = Product
+    template_name = 'adminapp/products/update.html'
+    form_class = ProductEditForm
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'product: {}'.format(self.get_object().name)
+        return context
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def get_success_message(self, cleaned_data):
+        return 'Product "{}" was successfully updated!'.format(self.object)
+
+
+class ProductDelete(SingleObjectMixin, View):
+    model = Product
+
+    def get(self, *args, **kwargs):
+        product = self.get_object()
+        product.is_active = False
+        product.save()
+
+        success_message = 'Product "{}" was successfully deleted!'
+        messages.success(self.request, success_message.format(product))
+
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))

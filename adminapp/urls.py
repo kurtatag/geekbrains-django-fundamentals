@@ -15,12 +15,12 @@ urlpatterns = [
     path('users/delete/<int:pk>/', users.UserDelete.as_view(), name='user_delete'),
 
     # products
-    path('products/', products.index, name='products'),
-    path('products/create/', products.create, name='product_create'),
-    path('products/read/<int:pk>/', products.read, name='product_read'),
-    path('products/list/<str:category>/', products.list_by_category, name='products_by_category'),
-    path('products/update/<int:pk>/', products.update, name='product_update'),
-    path('products/delete/<int:pk>/', products.delete, name='product_delete'),
+    path('products/', products.ProductList.as_view(), name='products'),
+    path('products/create/', products.ProductCreate.as_view(), name='product_create'),
+    path('products/read/<int:pk>/', products.ProductDetail.as_view(), name='product_read'),
+    path('products/list/<str:category>/', products.ProductListByCategory.as_view(), name='products_by_category'),
+    path('products/update/<int:pk>/', products.ProductUpdate.as_view(), name='product_update'),
+    path('products/delete/<int:pk>/', products.ProductDelete.as_view(), name='product_delete'),
 
     # categories
     path('categories/', categories.CategoryList.as_view(), name='categories'),
