@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.detail import View, SingleObjectMixin
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 
 from mainapp.models import ProductCategory
@@ -24,7 +26,7 @@ class CategoryList(ListView):
         return context
 
 
-class CategoryCreate(CreateView):
+class CategoryCreate(SuccessMessageMixin, CreateView):
     template_name = 'adminapp/categories/create.html'
     form_class = ProductCategoryEditForm
     success_url = reverse_lazy('admin:categories')
@@ -37,6 +39,9 @@ class CategoryCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'new category'
         return context
+
+    def get_success_message(self, cleaned_data):
+        return 'Category "{}" was successfully created!'.format(self.object)
 
 
 class CategoryDetail(DetailView):
@@ -58,7 +63,7 @@ class CategoryDetail(DetailView):
         return context
 
 
-class CategoryUpdate(UpdateView):
+class CategoryUpdate(SuccessMessageMixin, UpdateView):
     model = ProductCategory
     template_name = 'adminapp/categories/update.html'
     form_class = ProductCategoryEditForm
@@ -75,6 +80,9 @@ class CategoryUpdate(UpdateView):
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
 
+    def get_success_message(self, cleaned_data):
+        return 'Category "{}" was successfully updated!'.format(self.object)
+
 
 class CategoryDelete(SingleObjectMixin, View):
     model = ProductCategory
@@ -83,4 +91,8 @@ class CategoryDelete(SingleObjectMixin, View):
         category = self.get_object()
         category.is_active = False
         category.save()
+
+        success_message = 'Category "{}" was successfully deleted!'
+        messages.success(self.request, success_message.format(category))
+
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
