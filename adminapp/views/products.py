@@ -116,7 +116,8 @@ class ProductListByCategory(View):
         for product in products_paginator:
             product_info = {
                 'product_id': product.id,
-                'product_name': product.name
+                'product_name': product.name,
+                'is_active': product.is_active
             }
             data['products'].append(product_info)
 

@@ -92,12 +92,21 @@ window.onload = function () {
         var products_element = $('#prducts-by-category');
         products_element.html("");
         for (var i = 0; i < products.length; i++) {
-            products_element.append(`<li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a href="/admin/products/read/${products[i].product_id}/" class="text-dark">
-                                    ${products[i].product_name}
-                                </a>
-                                <a class="btn btn-primary" href="/admin/products/read/${products[i].product_id}/" role="button">View</a>
-                            </li>`);
+            if (products[i].is_active) {
+                products_element.append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/products/read/${products[i].product_id}/" class="text-dark">
+                                        ${products[i].product_name}
+                                    </a>
+                                    <a class="btn btn-primary" href="/admin/products/read/${products[i].product_id}/" role="button">View</a>
+                                </li>`);
+            } else {
+                products_element.append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/products/read/${products[i].product_id}/" class="text-dark">
+                                        ${products[i].product_name} <span class="badge badge-dark">Not Active</span>
+                                    </a>
+                                    <a class="btn btn-primary" href="/admin/products/read/${products[i].product_id}/" role="button">View</a>
+                                </li>`);
+            }
         }
 
 
