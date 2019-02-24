@@ -220,7 +220,7 @@ a {
     opacity: 1;
 }
 
-.pagination {
+.slider-pagination {
     display: flex;
     align-items: center;
     justify-content: center;
