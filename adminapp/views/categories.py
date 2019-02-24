@@ -1,85 +1,98 @@
 from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic.detail import View, SingleObjectMixin
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.decorators import method_decorator
 
 from mainapp.models import ProductCategory
 from adminapp.forms import ProductCategoryEditForm
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def index(request: HttpRequest):
-    title = 'categories'
-    categories = ProductCategory.objects.all()
+class CategoryList(ListView):
+    model = ProductCategory
+    context_object_name = 'categories'
+    template_name = 'adminapp/categories/index.html'
 
-    context = {
-        'title': title,
-        'categories': categories
-    }
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    return render(request, 'adminapp/categories/index.html', context)
-
-
-@user_passes_test(lambda user: user.is_superuser)
-def create(request: HttpRequest):
-    title = 'new category'
-
-    if request.method == 'POST':
-        form = ProductCategoryEditForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('admin:categories'))
-
-    form = ProductCategoryEditForm()
-
-    context = {
-        'title': title,
-        'form': form,
-    }
-
-    return render(request, 'adminapp/categories/create.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'categories'
+        return context
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def read(request: HttpRequest, pk):
-    title = 'category: {}'
-    category = get_object_or_404(ProductCategory, pk=pk)
-    products = category.products.all()[:5]
+class CategoryCreate(SuccessMessageMixin, CreateView):
+    template_name = 'adminapp/categories/create.html'
+    form_class = ProductCategoryEditForm
+    success_url = reverse_lazy('admin:categories')
 
-    context = {
-        'title': title.format(category.name),
-        'category': category,
-        'products': products,
-    }
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    return render(request, 'adminapp/categories/read.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'new category'
+        return context
 
-
-@user_passes_test(lambda user: user.is_superuser)
-def update(request: HttpRequest, pk):
-    title = 'edit category: {}'
-    category = get_object_or_404(ProductCategory, pk=pk)
-
-    if request.method == 'POST':
-        form = ProductCategoryEditForm(request.POST, request.FILES, instance=category)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    form = ProductCategoryEditForm(instance=category)
-
-    context = {
-        'title': title.format(category.name),
-        'form': form,
-    }
-
-    return render(request, 'adminapp/categories/update.html', context)
+    def get_success_message(self, cleaned_data):
+        return 'Category "{}" was successfully created!'.format(self.object)
 
 
-@user_passes_test(lambda user: user.is_superuser)
-def delete(request: HttpRequest, pk):
-    category = get_object_or_404(ProductCategory, pk=pk)
-    # category.delete()
-    category.is_active = False
-    category.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class CategoryDetail(DetailView):
+    model = ProductCategory
+    context_object_name = 'category'
+    template_name = 'adminapp/categories/read.html'
+
+    def get_products_in_category(self):
+        return self.get_object().products.all()[:5]
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'category: {}'.format(self.get_object().name)
+        context['products'] = self.get_products_in_category()
+        return context
+
+
+class CategoryUpdate(SuccessMessageMixin, UpdateView):
+    model = ProductCategory
+    template_name = 'adminapp/categories/update.html'
+    form_class = ProductCategoryEditForm
+
+    @method_decorator(user_passes_test(lambda user: user.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'category: {}'.format(self.get_object().name)
+        return context
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def get_success_message(self, cleaned_data):
+        return 'Category "{}" was successfully updated!'.format(self.object)
+
+
+class CategoryDelete(SingleObjectMixin, View):
+    model = ProductCategory
+
+    def get(self, *args, **kwargs):
+        category = self.get_object()
+        category.is_active = False
+        category.save()
+
+        success_message = 'Category "{}" was successfully deleted!'
+        messages.success(self.request, success_message.format(category))
+
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
